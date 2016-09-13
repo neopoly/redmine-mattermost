@@ -1,3 +1,4 @@
-source 'https://rubygems.org'
+source "https://rubygems.org"
 
-gem "httpclient"
+# Specify your gem's dependencies in redmine-mattermost.gemspec
+gemspec
