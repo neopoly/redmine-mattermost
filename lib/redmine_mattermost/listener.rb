@@ -257,8 +257,13 @@ private
 
 	def mentions text
 		return nil if text.nil?
+		return nil if uses_textile?
 		names = extract_usernames text
 		names.present? ? "\nTo: " + names.join(', ') : nil
+	end
+
+	def uses_textile?
+		Setting.text_formatting == "textile"
 	end
 
 	def extract_usernames text = ''
