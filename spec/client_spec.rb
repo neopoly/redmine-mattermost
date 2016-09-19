@@ -4,8 +4,8 @@ describe RedmineMattermost::Client do
   subject   { RedmineMattermost::Client.new(url) }
   let(:url) { "http://test.host/api/v3" }
 
-  it "use the given url" do
-    subject.url.must_equal url
+  it "use the given url as endpoint" do
+    subject.uri.must_equal URI(url)
   end
 
   it "speak the message as payload" do
@@ -18,7 +18,7 @@ describe RedmineMattermost::Client do
       .with(body: { payload: message.to_json })
       .to_return(body: "{}")
 
-    subject.speak(message)
+    subject.speak(message).join
   end
 
   private

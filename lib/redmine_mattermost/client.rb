@@ -1,26 +1,28 @@
-require "httpclient"
+require "net/http"
+require "json"
 
 module RedmineMattermost
   class Client
     SSL_VERSION = "SSLv23".freeze
 
-    attr_reader :url
+    attr_reader :uri
 
     def initialize(url)
-      @url = url
+      @uri = URI(url)
     end
 
     def speak(message)
-      build_http_client.post_async(url, payload: message.to_json)
+      post_async(payload: message.to_json)
     end
 
     private
 
-    def build_http_client
-      HTTPClient.new.tap do |http|
-        http.ssl_config.cert_store.set_default_paths
-        http.ssl_config.ssl_version = SSL_VERSION
-      end
+    def post_async(params)
+      Thread.new { post(params) }
+    end
+
+    def post(params)
+      Net::HTTP.post_form(uri, params)
     end
   end
 end
