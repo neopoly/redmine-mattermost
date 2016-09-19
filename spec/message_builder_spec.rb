@@ -1,13 +1,18 @@
 require "spec_helper"
 
 describe RedmineMattermost::MessageBuilder do
-  subject    { RedmineMattermost::MessageBuilder.new(text) }
+  subject    { RedmineMattermost::MessageBuilder.new(url, text) }
+  let(:url)  { "http://test.host" }
   let(:text) { "Some message" }
   let(:expected) do
     {
       link_names: 1,
       text: text
     }
+  end
+
+  it "holds the url" do
+    subject.url.must_equal(url)
   end
 
   it "returns the text as default" do
@@ -29,8 +34,8 @@ describe RedmineMattermost::MessageBuilder do
   end
 
   it "adds attachments" do
-    subject.attachment("the text")
-    subject.attachment("other text")
+    subject.attachment.text("the text")
+    subject.attachment.text("other text")
       .field("title", "value")
       .field("foo", "bar", true)
 

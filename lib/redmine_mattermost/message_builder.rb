@@ -1,16 +1,22 @@
 module RedmineMattermost
   class MessageBuilder
+    attr_reader :url
+
     DEFAULTS = {
       link_names: 1
     }
 
-    def initialize(message)
+    def initialize(url, message)
+      @url  = url
       @data = DEFAULTS.merge(text: message)
+      @attachments = []
     end
 
     def to_hash
       @data.dup.tap do |hash|
-        hash[:attachments] = @attachments.map(&:to_hash) if @attachments
+        unless @attachments.empty?
+          hash[:attachments] = @attachments.map(&:to_hash)
+        end
       end
     end
 
@@ -31,15 +37,20 @@ module RedmineMattermost
       end
     end
 
-    def attachment(text)
-      Attachment.new(text).tap do |am|
-        (@attachments ||= []) << am
+    def attachment
+      Attachment.new.tap do |am|
+        @attachments << am
       end
     end
 
     class Attachment
-      def initialize(message)
-        @data = { text: message }
+      def initialize()
+        @data = { }
+      end
+
+      def text(message)
+        @data[:text] = message
+        self
       end
 
       def field(title, value, short = false)
