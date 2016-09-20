@@ -82,7 +82,17 @@ describe RedmineMattermost::Extractors::NewIssue do
         status: "New",
         priority: "Normal",
         assigned_to: mock(title: "User B"),
-        description: "Some description"
+        description: <<TEXTILE
+Some description with @inline@ and
+
+<pre>pre-text
+over multiple lines
+</pre>
+
+<code>
+and code
+</code>
+TEXTILE
       }
     end
 
@@ -93,6 +103,20 @@ describe RedmineMattermost::Extractors::NewIssue do
       attachments = msg[:attachments]
       attachments.size.must_equal 1
       attachment  = attachments.shift
+
+      text = attachment[:text]
+      text.must_equal <<MARKDOWN.strip
+Some description with `inline` and
+
+```
+pre-text
+over multiple lines
+```
+
+`
+and code
+`
+MARKDOWN
       fields      = attachment[:fields]
       fields.size.must_equal 4
       fields.shift.must_equal({

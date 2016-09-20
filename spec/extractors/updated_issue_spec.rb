@@ -76,7 +76,7 @@ describe RedmineMattermost::Extractors::UpdatedIssue do
           mock(property: "cf", prop_key: "other_cf", value: "Some value")
         ],
         user: mock(title: "User A"),
-        notes: "This is a note"
+        notes: "This is a @note@"
       }
     end
 
@@ -89,7 +89,7 @@ describe RedmineMattermost::Extractors::UpdatedIssue do
       attachments.size.must_equal 1
       attachment  = attachments.shift
       text        = attachment[:text]
-      text.must_equal "This is a note"
+      text.must_equal "This is a `note`"
       fields      = attachment[:fields]
       fields.size.must_equal 15
       fields.shift.must_equal({

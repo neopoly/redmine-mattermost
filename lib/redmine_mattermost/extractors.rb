@@ -18,7 +18,7 @@ module RedmineMattermost
       protected
 
       def determine_channel(project)
-        return if project.nil? || project.empty?
+        return if project.nil? || project.blank?
 
         cf = custom_field(CUSTOM_FIELD_CHANNEL)
 
@@ -30,7 +30,7 @@ module RedmineMattermost
       end
 
       def determine_url(project)
-        return if project.nil? || project.empty?
+        return if project.nil? || project.blank?
         cf = custom_field(CUSTOM_FIELD_URL)
 
         [

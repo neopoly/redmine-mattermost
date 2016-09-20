@@ -19,7 +19,7 @@ module RedmineMattermost
         msg = MessageBuilder.new(MESSAGE % args)
         msg.channel(channel)
         attachment = msg.attachment
-        attachment.text(h issue.description) if issue.description
+        attachment.text(to_markdown issue.description) if issue.description
         attachment.field(t("field_status"), h(issue.status), true)
         attachment.field(t("field_priority"), h(issue.priority), true)
         attachment.field(t("field_assigned_to"), h(issue.assigned_to), true)

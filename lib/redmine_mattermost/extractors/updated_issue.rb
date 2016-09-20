@@ -21,7 +21,7 @@ module RedmineMattermost
         msg = MessageBuilder.new(MESSAGE % args)
         msg.channel(channel)
         attachment = msg.attachment
-        attachment.text(h journal.notes) if journal.notes
+        attachment.text(to_markdown journal.notes) if journal.notes
         mapper = Utils::JournalMapper.new(bridge)
         mapper.to_fields(journal).map do |field|
           attachment.field(*field)

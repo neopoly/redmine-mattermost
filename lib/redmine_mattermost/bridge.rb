@@ -16,6 +16,10 @@ module RedmineMattermost
       ::I18n.t(*args)
     end
 
+    def to_html(formatting, text)
+      Redmine::WikiFormatting.to_html(formatting, text)
+    end
+
     def find_custom_field(id)
       ::CustomField.find_by_id(id)
     end

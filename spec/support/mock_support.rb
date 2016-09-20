@@ -1,4 +1,5 @@
 require "ostruct"
+require "redcloth"
 
 class Mock < OpenStruct
   def to_s
@@ -40,6 +41,10 @@ class MockBridge
   def translate(key, options)
     options[:locale].must_equal(settings.default_language)
     key
+  end
+
+  def to_html(formatting, text)
+    RedCloth.new(text).to_html
   end
 
   def find_custom_field(id)
