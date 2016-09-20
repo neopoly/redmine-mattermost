@@ -3,6 +3,7 @@ require "spec_helper"
 describe RedmineMattermost::Extractors::NewIssue do
   subject { RedmineMattermost::Extractors::NewIssue.new(bridge) }
   let(:result) { subject.from_context(context) }
+  let(:msg)    { result[:message] }
   let(:context) do
     { issue: issue }
   end
@@ -45,10 +46,10 @@ describe RedmineMattermost::Extractors::NewIssue do
     end
 
     it "should return a message" do
-      result[:text].must_equal(
+      msg[:text].must_equal(
         "[#{link_for("Project A")}] User A created #{link_for("Some title")}"
       )
-      attachments = result[:attachments]
+      attachments = msg[:attachments]
       attachments.size.must_equal 1
       attachment  = attachments.shift
       fields      = attachment[:fields]
@@ -86,10 +87,10 @@ describe RedmineMattermost::Extractors::NewIssue do
     end
 
     it "should return a message" do
-      result[:text].must_equal(
+      msg[:text].must_equal(
         "[#{link_for("Project A")}] User A created #{link_for("Some title")}"
       )
-      attachments = result[:attachments]
+      attachments = msg[:attachments]
       attachments.size.must_equal 1
       attachment  = attachments.shift
       fields      = attachment[:fields]
@@ -133,12 +134,12 @@ describe RedmineMattermost::Extractors::NewIssue do
 
     it "should extract mentions for markdown" do
       settings.text_formatting = "markdown"
-      result[:text].must_include("To: @foo, @bar")
+      msg[:text].must_include("To: @foo, @bar")
     end
 
     it "should NOT extract mentions for textile" do
       settings.text_formatting = "textile"
-      result[:text].wont_include("To: @foo, @bar")
+      msg[:text].wont_include("To: @foo, @bar")
     end
   end
 end

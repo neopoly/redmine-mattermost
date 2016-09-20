@@ -3,6 +3,7 @@ require "spec_helper"
 describe RedmineMattermost::Extractors::UpdatedIssue do
   subject { RedmineMattermost::Extractors::UpdatedIssue.new(bridge) }
   let(:result) { subject.from_context(context) }
+  let(:msg)    { result[:message] }
   let(:context) do
     { issue: issue, journal: journal }
   end
@@ -48,7 +49,7 @@ describe RedmineMattermost::Extractors::UpdatedIssue do
     end
 
     it "should return a message" do
-      result[:text].must_equal(
+      msg[:text].must_equal(
         "[#{link_for("Project A")}] User A updated #{link_for("Some title")}"
       )
     end
@@ -80,11 +81,11 @@ describe RedmineMattermost::Extractors::UpdatedIssue do
     end
 
     it "should return a message" do
-      result[:text].must_equal(
+      msg[:text].must_equal(
         "[#{link_for("Project A")}] User A updated #{link_for("Some title")}"
       )
 
-      attachments = result[:attachments]
+      attachments = msg[:attachments]
       attachments.size.must_equal 1
       attachment  = attachments.shift
       text        = attachment[:text]

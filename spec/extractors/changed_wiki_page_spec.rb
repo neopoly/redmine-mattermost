@@ -3,6 +3,7 @@ require "spec_helper"
 describe RedmineMattermost::Extractors::ChangedWikiPage do
   subject { RedmineMattermost::Extractors::ChangedWikiPage.new(bridge) }
   let(:result) { subject.from_context(context) }
+  let(:msg)    { result[:message] }
   let(:context) do
     { project: project, page: page }
   end
@@ -31,7 +32,7 @@ describe RedmineMattermost::Extractors::ChangedWikiPage do
 
   describe "minimal page" do
     it "should return a message" do
-      result[:text].must_equal(
+      msg[:text].must_equal(
         "[#{link_for("Project A")}] User A updated #{link_for("Some title")}"
       )
     end
@@ -49,10 +50,10 @@ describe RedmineMattermost::Extractors::ChangedWikiPage do
     end
 
     it "should return a message" do
-      result[:text].must_equal(
+      msg[:text].must_equal(
         "[#{link_for("Project A")}] User A updated #{link_for("Some title")}"
       )
-      attachments = result[:attachments]
+      attachments = msg[:attachments]
       attachments.size.must_equal 1
       attachment  = attachments.shift
       text        = attachment[:text]

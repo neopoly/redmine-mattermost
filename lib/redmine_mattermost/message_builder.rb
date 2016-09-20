@@ -1,13 +1,10 @@
 module RedmineMattermost
   class MessageBuilder
-    attr_reader :url
-
     DEFAULTS = {
       link_names: 1
     }
 
-    def initialize(url, message)
-      @url  = url
+    def initialize(message)
       @data = DEFAULTS.merge(text: message)
       @attachments = []
     end

@@ -3,6 +3,7 @@ require "spec_helper"
 describe RedmineMattermost::Extractors::AppliedChangeset do
   subject { RedmineMattermost::Extractors::AppliedChangeset.new(bridge) }
   let(:result) { subject.from_context(context) }
+  let(:msg)    { result[:message] }
   let(:context) do
     { issue: issue, changeset: changeset }
   end
@@ -62,10 +63,10 @@ describe RedmineMattermost::Extractors::AppliedChangeset do
 
   describe "with changeset" do
     it "should return a message" do
-      result[:text].must_equal(
+      msg[:text].must_equal(
         "[#{link_for("Project A")}] User A updated #{link_for("Some title")}"
       )
-      attachments = result[:attachments]
+      attachments = msg[:attachments]
       attachments.size.must_equal 1
       attachment  = attachments.shift
       text        = attachment[:text]

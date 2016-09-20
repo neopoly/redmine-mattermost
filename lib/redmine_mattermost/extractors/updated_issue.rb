@@ -18,7 +18,7 @@ module RedmineMattermost
           mentions: extract_mentions(journal.notes)
         }
 
-        msg = MessageBuilder.new(url, MESSAGE % args)
+        msg = MessageBuilder.new(MESSAGE % args)
         msg.channel(channel)
         attachment = msg.attachment
         attachment.text(h journal.notes) if journal.notes
@@ -26,7 +26,8 @@ module RedmineMattermost
         mapper.to_fields(journal).map do |field|
           attachment.field(*field)
         end
-        msg.to_hash
+
+        { url: url, message: msg.to_hash }
       end
 
       private

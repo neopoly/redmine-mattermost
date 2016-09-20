@@ -1,8 +1,7 @@
 require "spec_helper"
 
 describe RedmineMattermost::MessageBuilder do
-  subject    { RedmineMattermost::MessageBuilder.new(url, text) }
-  let(:url)  { "http://test.host" }
+  subject    { RedmineMattermost::MessageBuilder.new(text) }
   let(:text) { "Some message" }
   let(:expected) do
     {
@@ -10,11 +9,6 @@ describe RedmineMattermost::MessageBuilder do
       text: text
     }
   end
-
-  it "holds the url" do
-    subject.url.must_equal(url)
-  end
-
   it "returns the text as default" do
     result.must_equal(expected)
   end

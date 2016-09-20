@@ -17,13 +17,14 @@ module RedmineMattermost
           object_link: link(page.title, event_url(page)),
         }
 
-        msg = MessageBuilder.new(url, MESSAGE % args)
+        msg = MessageBuilder.new(MESSAGE % args)
         msg.channel(channel)
         unless page.content.comments.empty?
           attachment = msg.attachment
           attachment.text(h page.content.comments)
         end
-        msg.to_hash
+
+        { url: url, message: msg.to_hash }
       end
 
       private

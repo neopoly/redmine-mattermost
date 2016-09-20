@@ -16,7 +16,7 @@ module RedmineMattermost
           mentions: extract_mentions(issue.description)
         }
 
-        msg = MessageBuilder.new(url, MESSAGE % args)
+        msg = MessageBuilder.new(MESSAGE % args)
         msg.channel(channel)
         attachment = msg.attachment
         attachment.text(h issue.description) if issue.description
@@ -30,7 +30,7 @@ module RedmineMattermost
           )
         end
 
-        msg.to_hash
+        { url: url, message: msg.to_hash }
       end
     end
   end

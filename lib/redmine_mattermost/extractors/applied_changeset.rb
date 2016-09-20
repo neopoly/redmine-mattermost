@@ -20,7 +20,7 @@ module RedmineMattermost
           object_link: link(issue, event_url(issue))
         }
 
-        msg = MessageBuilder.new(url, MESSAGE % args)
+        msg = MessageBuilder.new(MESSAGE % args)
         msg.channel(channel)
         attachment = msg.attachment
         attachment.text(t("text_status_changed_by_changeset", value: revision_link(changeset)))
@@ -28,7 +28,8 @@ module RedmineMattermost
         mapper.to_fields(journal).map do |field|
           attachment.field(*field)
         end
-        msg.to_hash
+
+        { url: url, message: msg.to_hash }
       end
 
       private
