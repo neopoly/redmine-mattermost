@@ -29,10 +29,7 @@
 
 <p>
 	<label for="settings_display_watchers">Display Watchers?</label>
-	<select id="settings_display_watchers" value="<%= settings['display_watchers'] %>" name="settings[display_watchers]">
-		<option value="yes">Yes</option>
-		<option value="no" <%= settings['display_watchers'] != 'yes' ? %q(selected="selected") : '' %>>No</option>
-	</select>
+	<input type="checkbox" id="settings_display_watchers" value="1" name="settings[display_watchers]" <%= settings['display_watchers'] == '1' ? 'checked="checked"' : '' %> />
 </p>
 
 <p>

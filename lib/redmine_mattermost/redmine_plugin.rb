@@ -8,7 +8,7 @@ module RedmineMattermost
       "channel" => nil,
       "icon" => "https://raw.githubusercontent.com/altsol/redmine_mattermost/assets/icon.png",
       "username" => "redmine",
-      "display_watchers" => "no"
+      "display_watchers" => "0"
     }.freeze
 
     SETTING_PARTIAL = "settings/mattermost_settings"
