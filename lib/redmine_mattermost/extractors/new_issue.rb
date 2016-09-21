@@ -20,17 +20,22 @@ module RedmineMattermost
         msg.channel(channel)
         attachment = msg.attachment
         attachment.text(to_markdown issue.description) if issue.description
-        attachment.field(t("field_status"), h(issue.status), true)
-        attachment.field(t("field_priority"), h(issue.priority), true)
-        attachment.field(t("field_assigned_to"), h(issue.assigned_to), true)
+        add_field(attachment, "field_status", issue.status)
+        add_field(attachment, "field_priority", issue.priority)
+        add_field(attachment, "field_assigned_to", issue.assigned_to)
 
         if show_watchers? && !issue.watcher_users.empty?
-          attachment.field(
-            t("field_watcher"), h(issue.watcher_users.join(", ")), true
-          )
+          add_field(attachment, "field_watcher", issue.watcher_users.join(", "))
         end
 
         { url: url, message: msg.to_hash }
+      end
+
+      private
+
+      def add_field(attachment, key, value)
+        value = "-" if value.nil? || value.to_s.empty?
+        attachment.field(t(key), h(value), true)
       end
     end
   end

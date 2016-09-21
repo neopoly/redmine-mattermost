@@ -39,6 +39,46 @@ describe RedmineMattermost::Extractors::NewIssue do
         project: EventMock.new(title: "Project A"),
         author: mock(title: "User A"),
         watcher_users: [],
+        status: "",
+        priority: "",
+        assigned_to: nil
+      }
+    end
+
+    it "should return a message" do
+      msg[:text].must_equal(
+        "[#{link_for("Project A")}] User A created #{link_for("Some title")}"
+      )
+      attachments = msg[:attachments]
+      attachments.size.must_equal 1
+      attachment  = attachments.shift
+      fields      = attachment[:fields]
+      fields.size.must_equal 3
+      fields.shift.must_equal({
+        title: "field_status",
+        value: "-",
+        short: true
+      })
+      fields.shift.must_equal({
+        title: "field_priority",
+        value: "-",
+        short: true
+      })
+      fields.shift.must_equal({
+        title: "field_assigned_to",
+        value: "-",
+        short: true
+      })
+    end
+  end
+
+  describe "default issue" do
+    let(:issue_data) do
+      {
+        title: "Some title",
+        project: EventMock.new(title: "Project A"),
+        author: mock(title: "User A"),
+        watcher_users: [],
         status: "New",
         priority: "Normal",
         assigned_to: mock(title: "User B")
