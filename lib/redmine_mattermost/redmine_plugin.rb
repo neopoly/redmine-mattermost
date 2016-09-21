@@ -27,7 +27,6 @@ module RedmineMattermost
         description DESCRIPTION
         version VERSION
         url URL
-        author_url AUTHOR_URL
         directory Engine.root
 
         requires_redmine version_or_higher: "2.0.0"
