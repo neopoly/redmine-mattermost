@@ -6,8 +6,8 @@ module RedmineMattermost
     DEFAULT_SETTINGS = {
       "callback_url" => "http://example.com/callback/",
       "channel" => nil,
-      "icon" => "https://raw.githubusercontent.com/altsol/redmine_mattermost/assets/icon.png",
-      "username" => "redmine",
+      "icon" => "https://raw.githubusercontent.com/neopoly/redmine-mattermost/assets/icon.png",
+      "username" => "Redmine",
       "display_watchers" => "0"
     }.freeze
 

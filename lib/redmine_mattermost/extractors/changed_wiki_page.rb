@@ -19,6 +19,8 @@ module RedmineMattermost
 
         msg = MessageBuilder.new(MESSAGE % args)
         msg.channel(channel)
+        msg.icon(determine_icon(project))
+        msg.username(determine_username(project))
         unless page.content.comments.empty?
           attachment = msg.attachment
           attachment.text(h page.content.comments)

@@ -25,13 +25,8 @@ module RedmineMattermost
       @data[:channel] = id
     end
 
-    def icon(emoji_or_url)
-      return if emoji_or_url.nil? || emoji_or_url.empty?
-      if emoji_or_url.start_with?(":")
-        @data[:icon_emoji] = emoji_or_url
-      else
-        @data[:icon_url] = emoji_or_url
-      end
+    def icon(url)
+      @data[:icon_url] = url unless url.nil? || url.empty?
     end
 
     def attachment

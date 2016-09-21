@@ -20,6 +20,8 @@ module RedmineMattermost
 
         msg = MessageBuilder.new(MESSAGE % args)
         msg.channel(channel)
+        msg.icon(determine_icon(issue.project))
+        msg.username(determine_username(issue.project))
         attachment = msg.attachment
         attachment.text(to_markdown journal.notes) if journal.notes
         mapper = Utils::JournalMapper.new(bridge)

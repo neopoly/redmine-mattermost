@@ -22,6 +22,8 @@ module RedmineMattermost
 
         msg = MessageBuilder.new(MESSAGE % args)
         msg.channel(channel)
+        msg.icon(determine_icon(issue.project))
+        msg.username(determine_username(issue.project))
         attachment = msg.attachment
         attachment.text(t("text_status_changed_by_changeset", value: revision_link(changeset)))
         mapper = Utils::JournalMapper.new(bridge)

@@ -56,13 +56,6 @@ describe RedmineMattermost::MessageBuilder do
     }))
   end
 
-  it "set the icon as emoji" do
-    subject.icon(":sparkles:")
-    result.must_equal(expected.merge({
-      icon_emoji: ":sparkles:"
-    }))
-  end
-
   it "set the icon as url" do
     subject.icon("http://some.com/test.png")
     result.must_equal(expected.merge({

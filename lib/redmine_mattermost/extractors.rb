@@ -6,6 +6,8 @@ module RedmineMattermost
 
       CUSTOM_FIELD_URL = "Mattermost URL"
       CUSTOM_FIELD_CHANNEL = "Mattermost Channel"
+      CUSTOM_FIELD_ICON = "Mattermost Icon"
+      CUSTOM_FIELD_USERNAME = "Mattermost Username"
       BLACK_HOLE_CHANNEL = "-"
       MENTIONS = "\nTo: %{usernames}"
 
@@ -18,26 +20,20 @@ module RedmineMattermost
       protected
 
       def determine_channel(project)
-        return if project.nil? || project.blank?
-
-        cf = custom_field(CUSTOM_FIELD_CHANNEL)
-
-        [
-          (project.custom_value_for(cf).value rescue nil),
-          determine_channel(project.parent),
-          settings.plugin_redmine_mattermost[:channel],
-        ].find { |v| !v.nil? && !v.empty? && v != BLACK_HOLE_CHANNEL }
+        channel = determine_configurable_field(project, :channel, CUSTOM_FIELD_CHANNEL)
+        return channel if channel != BLACK_HOLE_CHANNEL
       end
 
       def determine_url(project)
-        return if project.nil? || project.blank?
-        cf = custom_field(CUSTOM_FIELD_URL)
+        determine_configurable_field(project, :mattermost_url, CUSTOM_FIELD_URL)
+      end
 
-        [
-          (project.custom_value_for(cf).value rescue nil),
-          determine_url(project.parent),
-          settings.plugin_redmine_mattermost[:mattermost_url],
-        ].find { |v| !v.nil? && !v.empty? }
+      def determine_icon(project)
+        determine_configurable_field(project, :icon, CUSTOM_FIELD_ICON)
+      end
+
+      def determine_username(project)
+        determine_configurable_field(project, :username, CUSTOM_FIELD_USERNAME)
       end
 
       def extract_mentions(text)
@@ -62,8 +58,6 @@ module RedmineMattermost
         settings.plugin_redmine_mattermost[:display_watchers] == "1"
       end
 
-      protected
-
       def settings
         bridge.settings
       end
@@ -72,6 +66,17 @@ module RedmineMattermost
 
       def custom_field(name)
         bridge.custom_field_by_name(name)
+      end
+
+      def determine_configurable_field(project, settings_key, field_key)
+        return if project.nil? || project.blank?
+        cf = custom_field(field_key)
+
+        [
+          (project.custom_value_for(cf).value rescue nil),
+          determine_configurable_field(project.parent, settings_key, field_key),
+          settings.plugin_redmine_mattermost[settings_key],
+        ].find { |v| !v.nil? && !v.empty? }
       end
     end
   end
