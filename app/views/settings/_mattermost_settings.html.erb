@@ -1,46 +1,86 @@
+<div class="box">
+  <i class="icon icon-help"></i> You can find detailed setup instructions in the
+  <a href="https://github.com/neopoly/redmine-mattermost/blob/master/README.md" target="_blank">README</a>.
+</div>
+
 <p>
-	<label for="settings_mattermost_url">Mattermost URL</label>
-	<input type="text" id="settings_mattermost_url" size=80 value="<%= settings['mattermost_url'] %>" name="settings[mattermost_url]" />
+  <label for="settings_mattermost_url">Mattermost URL</label>
+  <input type="text" id="settings_mattermost_url" size=80 value="<%= settings['mattermost_url'] %>" name="settings[mattermost_url]" />
 </p>
 
 <p>
-	Generate an "Incoming WebHook" URL from the <a href="http://docs.mattermost.com/developer/webhooks-incoming.html">Integrations configuration page on Mattermost</a>. This URL can be changed on a per-project basis by creating a <a href="/custom_fields/new?type=ProjectCustomField">project custom field</a> named "Mattermost URL" (without quotes).
+  Generate an "Incoming WebHook" URL from the
+  <a href="http://docs.mattermost.com/developer/webhooks-incoming.html">Integrations configuration page on Mattermost</a>.
+  <br>
+  This URL can be overwritten on a per-project basis by creating a
+  <a href="/custom_fields/new?type=ProjectCustomField">project custom field</a> named "<code>Mattermost URL</code>".
 </p>
 
 <p>
-	<label for="settings_channel">Mattermost Channel</label>
-	<input type="text" id="settings_channel" value="<%= settings['channel'] %>" name="settings[channel]" />
+  <label for="settings_channel">Mattermost Channel</label>
+  <input type="text" id="settings_channel" value="<%= settings['channel'] %>" name="settings[channel]"  size=80/>
 </p>
 
 <p>
-	The channel can be changed on a per-project basis by creating a
-	<a href="/custom_fields/new?type=ProjectCustomField">project custom field</a> named "Mattermost Channel" (without quotes).
+  The channel can be overwritten on a per-project basis by creating a
+  <a href="/custom_fields/new?type=ProjectCustomField">project custom field</a> named "<code>Mattermost Channel</code>".
+  Mattermost will use the configured channel for the used WebHook in case no channel is given.
+  <br>
+  Using "<code>-</code>" as the channel will prevent any messages to Mattermost.
 </p>
 
 <p>
-	<label for="settings_icon">Mattermost Icon</label>
-	<input type="text" id="settings_icon" value="<%= settings['icon'] %>" name="settings[icon]" />
+  <label for="settings_icon">Mattermost Icon</label>
+  <input type="text" id="settings_icon" value="<%= settings['icon'] %>" name="settings[icon]" size=80/>
 </p>
 
 <p>
-	<label for="settings_username">Mattermost Username</label>
-	<input type="text" id="settings_username" value="<%= settings['username'] %>" name="settings[username]" />
+  The icon can be overwritten on a per-project basis by creating a
+  <a href="/custom_fields/new?type=ProjectCustomField">project custom field</a> named "<code>Mattermost Icon</code>".
 </p>
 
 <p>
-	<label for="settings_display_watchers">Display Watchers?</label>
-	<select id="settings_display_watchers" value="<%= settings['display_watchers'] %>" name="settings[display_watchers]">
-		<option value="yes">Yes</option>
-		<option value="no" <%= settings['display_watchers'] != 'yes' ? %q(selected="selected") : '' %>>No</option>
-	</select>
+  <label for="settings_username">Mattermost Username</label>
+  <input type="text" id="settings_username" value="<%= settings['username'] %>" name="settings[username]"  size=80/>
 </p>
 
 <p>
-	<label for="settings_post_updates">Post Issue Updates?</label>
-	<input type="checkbox" id="settings_post_updates" value="1" name="settings[post_updates]" <%= settings['post_updates'] == '1' ? 'checked="checked"' : '' %> />
+  The username can be overwritten on a per-project basis by creating a
+  <a href="/custom_fields/new?type=ProjectCustomField">project custom field</a> named "<code>Mattermost Username</code>".
 </p>
 
 <p>
-	<label for="settings_post_wiki_updates">Post Wiki Updates?</label>
-	<input type="checkbox" id="settings_post_wiki_updates" value="1" name="settings[post_wiki_updates]" <%= settings['post_wiki_updates'] == '1' ? 'checked="checked"' : '' %> />
+  <label for="settings_display_watchers">Display Watchers?</label>
+  <%
+    display_watchers_available = Setting.text_formatting != "textile"
+    display_watchers = settings['display_watchers']
+  %>
+  <input type="checkbox" id="settings_display_watchers" value="1" name="settings[display_watchers]" <%= display_watchers ? 'checked="checked"' : '' %> <%= display_watchers_available ? '' : 'disabled="disabled"' %>/>
+</p>
+
+<p>
+  Enabling this option will scan the content for mentions (e.g. <code>@joe</code>) and list them
+  in the message title.
+  <br>
+  <em>This option is not available if you're using "Textile" as the main "Text formatting" engine in Redmine as the <code>@</code>-char has a special usage.</em>
+</p>
+
+<p>
+  <label for="settings_post_updates">Post Issue Updates?</label>
+  <input type="checkbox" id="settings_post_updates" value="1" name="settings[post_updates]" <%= settings['post_updates'] == '1' ? 'checked="checked"' : '' %> />
+</p>
+
+<p>
+  Per default only new issue are reported to Mattermost. Enable this option if you want every issue
+  update to be posted to Mattermost.
+</p>
+
+<p>
+  <label for="settings_post_wiki_updates">Post Wiki Changes?</label>
+  <input type="checkbox" id="settings_post_wiki_updates" value="1" name="settings[post_wiki_updates]" <%= settings['post_wiki_updates'] == '1' ? 'checked="checked"' : '' %> />
+</p>
+
+<p>
+  Per default changes to Wiki pages (new pages or updates) are not posted to Mattermost. Enable this option
+  if you want every change to a Wiki page posted to Mattermost.
 </p>

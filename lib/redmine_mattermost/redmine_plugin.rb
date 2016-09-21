@@ -6,9 +6,9 @@ module RedmineMattermost
     DEFAULT_SETTINGS = {
       "callback_url" => "http://example.com/callback/",
       "channel" => nil,
-      "icon" => "https://raw.githubusercontent.com/altsol/redmine_mattermost/assets/icon.png",
-      "username" => "redmine",
-      "display_watchers" => "no"
+      "icon" => "https://raw.githubusercontent.com/neopoly/redmine-mattermost/assets/icon.png",
+      "username" => "Redmine",
+      "display_watchers" => "0"
     }.freeze
 
     SETTING_PARTIAL = "settings/mattermost_settings"
@@ -27,7 +27,6 @@ module RedmineMattermost
         description DESCRIPTION
         version VERSION
         url URL
-        author_url AUTHOR_URL
         directory Engine.root
 
         requires_redmine version_or_higher: "2.0.0"

@@ -4,7 +4,6 @@ module RedmineMattermost
     DESCRIPTION = "Mattermost chat integration"
     LICENSE     = "MIT"
     URL         = "https://github.com/neopoly/redmine-mattermost"
-    AUTHORS     = ["AltSol"]
-    AUTHOR_URL  = "http://altsol.gr"
+    AUTHORS     = ["AltSol", "Jonas Thiel"]
   end
 end
