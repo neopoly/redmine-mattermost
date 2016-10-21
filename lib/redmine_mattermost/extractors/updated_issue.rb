@@ -8,6 +8,7 @@ module RedmineMattermost
         journal = context.fetch(:journal)
         return unless notify?
         return if issue.is_private?
+        return if journal.private_notes?
         return unless channel = determine_channel(issue.project)
         return unless url = determine_url(issue.project)
 

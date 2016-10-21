@@ -9,7 +9,7 @@ describe RedmineMattermost::Extractors::UpdatedIssue do
   end
   let(:bridge)  { MockBridge.new(settings) }
   let(:issue)   { MockIssue.new(issue_data) }
-  let(:journal) { mock(journal_data) }
+  let(:journal) { MockJournal.new(journal_data) }
 
   let(:settings) { Defaults.settings }
   let(:issue_data) do
@@ -52,6 +52,34 @@ describe RedmineMattermost::Extractors::UpdatedIssue do
       msg[:text].must_equal(
         "[#{link_for("Project A")}] User A updated #{link_for("Some title")}"
       )
+    end
+
+    describe "private issue" do
+      let(:issue_data) do
+        {
+          title: "Some title",
+          project: EventMock.new(title: "Project A"),
+          is_private: true
+        }
+      end
+
+      it "return nil" do
+        result.must_be_nil
+      end
+    end
+  end
+
+  describe "private notes" do
+    let(:journal_data) do
+      {
+        details: [],
+        user: mock(title: "User A"),
+        private_notes: true
+      }
+    end
+
+    it "return nil" do
+      result.must_be_nil
     end
   end
 

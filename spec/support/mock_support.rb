@@ -23,6 +23,12 @@ class MockIssue < EventMock
   end
 end
 
+class MockJournal < Mock
+  def private_notes?
+    private_notes
+  end
+end
+
 class MockBridge
   attr_reader :settings
 
