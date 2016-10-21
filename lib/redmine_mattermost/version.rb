@@ -1,3 +1,3 @@
 module RedmineMattermost
-  VERSION = "0.4.beta1"
+  VERSION = "0.4.beta2"
 end
